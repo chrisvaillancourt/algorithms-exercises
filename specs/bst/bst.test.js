@@ -17,21 +17,62 @@ right - Node/object - the right node which itself may be another tree
 */
 
 class Tree {
-  // code goes here
+  // root has 0-2 children
+  // each child to the left is less than the root
+  // each child to the right is greater than the root
+  // each child may have 1 - 2 children
+  constructor() {
+    this.root = null;
+  }
+
+  add(value) {
+    if (!this.root) {
+      // all trees need a root node
+      this.root = new TreeNode(value);
+    } else {
+      var current = this.root; // where node should go
+      // eslint-disable-next-line no-constant-condition
+      while (true)
+        // keep running because we want to run it until we tell it not to
+        // we always want to add the item to the tree
+        if (current.value > value) {
+          // go left
+          if (current.left) {
+            current = current.left;
+          } else {
+            current.left = new TreeNode(value);
+            break;
+          }
+        } else {
+          // go right
+          if (current.right) {
+            current = current.right;
+          } else {
+            current.right = new TreeNode(value);
+            break;
+          }
+        }
+    }
+    return this;
+  }
+  toObject() {
+    return this.root;
+  }
 }
-
-// you might consider using a Node class too
-// class Node {
-//   // code maybe goes here
-// }
-
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
 // unit tests
 // do not modify the below code
-describe.skip("Binary Search Tree", function () {
-  it("creates a correct tree", () => {
+describe('Binary Search Tree', function () {
+  it('creates a correct tree', () => {
     const nums = [3, 7, 4, 6, 5, 1, 10, 2, 9, 8];
     const tree = new Tree();
-    nums.map((num) => tree.add(num));
+    nums.forEach((num) => tree.add(num));
     const objs = tree.toObject();
     // render(objs, nums);
 
